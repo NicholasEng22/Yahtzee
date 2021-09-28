@@ -43,26 +43,40 @@ function rollDice(){
 
 function randDice(){
   let a = Math.floor(Math.random() * (5 - 0 + 1)) + 0;
-  let b = 'images/blank.svg';
+  let map = new Map();
 
-  if (a == 0) {
-    b = 'images/one.svg';
-  }
-  else if (a == 1) {
-    b = 'images/two.svg';
-  }
-  else if (a == 2) {
-    b = 'images/three.svg';
-  }
-  else if (a == 3) {
-    b = 'images/four.svg';
-  }
-  else if (a == 4) {
-    b = 'images/five.svg';
-  }
-  else {
-    b = 'images/six.svg';
-  }
-  console.log();
-  return b;
+  map.set(0, 'images/one.svg');
+  map.set(1, 'images/two.svg');
+  map.set(2, 'images/three.svg');
+  map.set(3, 'images/four.svg');
+  map.set(4, 'images/five.svg');
+  map.set(5, 'images/six.svg');
+
+  return map.get(a);
 }
+
+// function randDice(){
+//   let a = Math.floor(Math.random() * (5 - 0 + 1)) + 0;
+//   let b = 'images/blank.svg';
+//
+//   if (a == 0) {
+//     b = 'images/one.svg';
+//   }
+//   else if (a == 1) {
+//     b = 'images/two.svg';
+//   }
+//   else if (a == 2) {
+//     b = 'images/three.svg';
+//   }
+//   else if (a == 3) {
+//     b = 'images/four.svg';
+//   }
+//   else if (a == 4) {
+//     b = 'images/five.svg';
+//   }
+//   else {
+//     b = 'images/six.svg';
+//   }
+//   console.log();
+//   return b;
+// }
