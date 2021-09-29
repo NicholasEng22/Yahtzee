@@ -1,12 +1,12 @@
 /* Variables */
-var rollsLeft = 3;
+let rollsLeft = 3;
+
 document.getElementById('save-game').addEventListener('click', saveGame);
 document.getElementById('new-game').addEventListener('click', newGame);
 document.getElementById('load-game').addEventListener('click', loadGame);
 document.getElementById('roll-dice').addEventListener('click', rollDice);
 
 /* Functions  */
-
 function saveGame(){
   //console.log(event.target);
   console.log("Save game was clicked");
@@ -21,12 +21,18 @@ function loadGame(){
 
 function newGame(){
   //console.log(event.target);
+  //rollsLeft = 3;
   console.log("New game was clicked");
+  document.getElementById("die-0").setAttribute('src', 'images/blank.svg');
+  document.getElementById("die-1").setAttribute('src', 'images/blank.svg');
+  document.getElementById("die-2").setAttribute('src', 'images/blank.svg');
+  document.getElementById("die-3").setAttribute('src', 'images/blank.svg');
+  document.getElementById("die-4").setAttribute('src', 'images/blank.svg');
+
 }
 
 function rollDice(){
   //console.log(event.target);
-  rollsleft = rollsLeft - 1;
 
   let img = 'images/blank.svg';
   console.log("Roll dice was clicked");
@@ -37,8 +43,8 @@ function rollDice(){
   document.getElementById("die-4").setAttribute('src', randDice());
 
 
-  rollsleft = rollsLeft - 1;
-  document.getElementById("rolls-remaining").innerHTML = rollsleft;
+  rollsLeft = rollsLeft - 1;
+  document.getElementById("rolls-remaining").innerHTML = rollsLeft;
 }
 
 function randDice(){
