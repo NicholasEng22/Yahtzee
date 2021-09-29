@@ -36,7 +36,7 @@ function saveGame(){
 function loadGame(){
   //console.log(event.target);
   console.log("Load game was clicked");
-  console.log(localStorage,getItem("Yahtzee"));
+  console.log(localStorage.getItem("Yahtzee"));
 }
 
 function newGame(){
@@ -44,6 +44,7 @@ function newGame(){
   rollsLeft = 3;
   document.getElementById("rolls-remaining").innerHTML = rollsLeft;
   console.log("New game was clicked");
+
   for (let i = 0; i < 5; i++) {
     document.getElementById("die-" + i).setAttribute('src', "images/blank.svg");
   }
@@ -53,10 +54,11 @@ function rollDice(event){
   console.log(event.target);
   console.log("Roll dice was clicked");
 
-  reserveBool = event.target.classList.contains("reserved");
+  let reserveBool = event.target.classList.contains("reserved");
 
   for (let i = 0; i < 5; i++) {
-    if (reserveBool == false) {
+    console.log(reserveBool);
+    if (!reserveBool) {
       document.getElementById("die-" + i).setAttribute('src', randDice() + ".svg");
     }
   }
