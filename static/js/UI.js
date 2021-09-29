@@ -5,8 +5,17 @@
 * Project Description: Replicate a game of Yahtzee
 */
 
+/* Reserve Class*/
+
+class reserved {
+  constructor() {
+    this.reserve = true;
+  }
+}
+
 /* Initialize Global Variables */
 let rollsLeft = 3;
+let diceArray = [0,0,0,0,0,0];
 
 /* Add Event Listener */
 document.getElementById('save-game').addEventListener('click', saveGame);
@@ -14,15 +23,16 @@ document.getElementById('new-game').addEventListener('click', newGame);
 document.getElementById('load-game').addEventListener('click', loadGame);
 document.getElementById('roll-dice').addEventListener('click', rollDice);
 
-document.getElementById('dice').addEventListener('dblclick', toggle); //create a toggle function
+for (let i = 0; i < 4; i++) {
+  document.getElementById('die-' + i).addEventListener('dblclick', reserveDie); //create a toggle function
+}
 
 document.getElementById("rolls-remaining").innerHTML = rollsLeft;
 
 /* Functions */
-
-function toggle(num){
+function reserveDie(){
   console.log("Reserve toggled!");
-  document.getElementById('dice').classList.toggle(".reserve")
+  document.getElementById('dice').classList.toggle(".reserved")
 }
 
 function saveGame(){
@@ -47,15 +57,15 @@ function newGame(){
   }
 }
 
-function rollDice(){
-  //console.log(event.target);
+function rollDice(event){
+  console.log(event.target);
   console.log("Roll dice was clicked");
 
   for (let i = 0; i < 5; i++) {
     document.getElementById("die-" + i).setAttribute('src', randDice() + ".svg");
   }
 
-  rollsLeft = rollsLeft - 1;
+  rollsLeft--;
   document.getElementById("rolls-remaining").innerHTML = rollsLeft;
 }
 
