@@ -5,14 +5,6 @@
 * Project Description: Replicate a game of Yahtzee
 */
 
-/* Reserve Class*/
-
-class reserved {
-  constructor() {
-    this.reserve = true;
-  }
-}
-
 /* Initialize Global Variables */
 let rollsLeft = 3;
 let diceArray = [0,0,0,0,0,0];
@@ -32,7 +24,7 @@ document.getElementById("rolls-remaining").innerHTML = rollsLeft;
 /* Functions */
 function reserveDie(){
   console.log("Reserve toggled!");
-  document.getElementById('dice').classList.toggle(".reserved")
+  event.target.classList.toggle("reserved")
 }
 
 function saveGame(){
@@ -61,8 +53,12 @@ function rollDice(event){
   console.log(event.target);
   console.log("Roll dice was clicked");
 
+  reserveBool = event.target.classList.contains("reserved");
+
   for (let i = 0; i < 5; i++) {
-    document.getElementById("die-" + i).setAttribute('src', randDice() + ".svg");
+    if (reserveBool == false) {
+      document.getElementById("die-" + i).setAttribute('src', randDice() + ".svg");
+    }
   }
 
   rollsLeft--;
