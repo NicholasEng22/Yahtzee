@@ -16,7 +16,7 @@ document.getElementById('load-game').addEventListener('click', loadGame);
 document.getElementById('roll-dice').addEventListener('click', rollDice);
 
 for (let i = 0; i < 4; i++) {
-  document.getElementById('die-' + i).addEventListener('dblclick', reserveDie); //create a toggle function
+  document.getElementById('die-' + i).addEventListener('dblclick', reserveDie); //Add an event listener to each die
 }
 
 document.getElementById("rolls-remaining").innerHTML = rollsLeft;
@@ -25,6 +25,13 @@ document.getElementById("rolls-remaining").innerHTML = rollsLeft;
 function reserveDie(){
   console.log("Reserve toggled!");
   event.target.classList.toggle("reserved")
+}
+
+function resetDice(){
+  rollsLeft = 3;
+  for (let i = 0; i < diceArray.length; i++) {
+    diceArray[i] = 0;
+  }
 }
 
 function saveGame(){
@@ -41,7 +48,7 @@ function loadGame(){
 
 function newGame(){
   //console.log(event.target);
-  rollsLeft = 3;
+  resetDice();
   document.getElementById("rolls-remaining").innerHTML = rollsLeft;
   console.log("New game was clicked");
 
@@ -60,6 +67,7 @@ function rollDice(event){
     console.log(reserveBool);
     if (!reserveBool) {
       document.getElementById("die-" + i).setAttribute('src', randDice() + ".svg");
+      
     }
   }
 
@@ -69,7 +77,7 @@ function rollDice(event){
 
 function randDice(){
   let a = Math.floor(Math.random() * (5 - 0 + 1)) + 0;
-  let img = ['images/blank', 'images/one', 'images/two', 'images/three', 'images/four', 'images/five', 'images/six'];
+  let img = ['images/one', 'images/two', 'images/three', 'images/four', 'images/five', 'images/six'];
 
-  return img[a+1];
+  return img[a];
 }
