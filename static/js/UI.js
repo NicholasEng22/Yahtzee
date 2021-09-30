@@ -13,6 +13,7 @@ let rollsLeft = 3;
 let diceArray = [0,0,0,0,0,0];
 let img = ['images/one', 'images/two', 'images/three', 'images/four', 'images/five', 'images/six'];
 let reserveBool;
+let rollingDie;
 
 /* Add Event Listener */
 document.getElementById('save-game').addEventListener('click', saveGame);
@@ -35,9 +36,11 @@ function reserveDie(){
 function resetDice(){ //Resets the dice to 0's
   rollsLeft = 3;
   for (let i = 0; i < diceArray.length-1; i++) {
-    // if (document.getElementById("die-" + i).contains("reserved")) {
-    //   document.getElementById("die-" + i)classList.toggle("reserved"); //remove the reserved class
-    // }
+    rollingDie = document.getElementById("die-" + i);
+    reserveBool = rollingDie.classList.contains("reserved");
+    if (reserveBool) {
+      rollingDie.classList.toggle("reserved"); //remove the reserved class
+    }
     diceArray[i] = 0;
   }
 }
@@ -72,11 +75,9 @@ function rollDice(event){
   console.log(event.target);
   console.log("Roll dice was clicked");
 
-
-
   for (let i = 0; i < diceArray.length-1; i++) {
-    rollingDie = document.getElementById("die-" + i);
-    reserveBool = rollingDie.classList.contains("reserved"); //Not working
+    rollingDie = document.getElementById("die-" + i); //this is also event.target.id
+    reserveBool = rollingDie.classList.contains("reserved");
     console.log(reserveBool);
     if (!reserveBool) {
       let a = Math.floor(Math.random() * (5 - 0 + 1)) + 0; //generates the random numbers
