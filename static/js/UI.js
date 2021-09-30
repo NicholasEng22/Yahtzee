@@ -6,12 +6,13 @@
 */
 
 /* Connect Dice class to UI */
-//import { dice } from 'Dice.js';
+import Dice from './Dice.js';
 
 /* Initialize Global Variables */
+let myDice = new Dice();
 let rollsLeft = 3;
-let diceArray = [0,0,0,0,0,0];
-let img = ['images/one', 'images/two', 'images/three', 'images/four', 'images/five', 'images/six'];
+let diceArray = [0,0,0,0,0];
+let img = ['one', 'two', 'three', 'four', 'five', 'six'];
 let reserveBool;
 let rollingDie;
 
@@ -34,8 +35,7 @@ function reserveDie(){
 }
 
 function resetDice(){ //Resets the dice to 0's
-  rollsLeft = 3;
-  for (let i = 0; i < diceArray.length-1; i++) {
+  for (let i = 0; i < diceArray.length; i++) {
     rollingDie = document.getElementById("die-" + i);
     reserveBool = rollingDie.classList.contains("reserved");
     if (reserveBool) {
@@ -55,7 +55,7 @@ function loadGame(){
   //console.log(event.target);
   console.log("Load game was clicked");
   console.log(localStorage.getItem("Yahtzee"));
-  for (let i = 0; i < diceArray.length-1; i++) {
+  for (let i = 0; i < diceArray.length; i++) {
     console.log(diceArray[i]);
   }
 }
@@ -63,6 +63,7 @@ function loadGame(){
 function newGame(){
   //console.log(event.target);
   resetDice();
+  rollsLeft = 3;
   document.getElementById("rolls-remaining").innerHTML = rollsLeft;
   console.log("New game was clicked");
 
@@ -75,13 +76,13 @@ function rollDice(event){
   console.log(event.target);
   console.log("Roll dice was clicked");
 
-  for (let i = 0; i < diceArray.length-1; i++) {
+  for (let i = 0; i < diceArray.length; i++) {
     rollingDie = document.getElementById("die-" + i); //this is also event.target.id
     reserveBool = rollingDie.classList.contains("reserved");
     console.log(reserveBool);
     if (!reserveBool) {
       let a = Math.floor(Math.random() * (5 - 0 + 1)) + 0; //generates the random numbers
-      document.getElementById("die-" + i).setAttribute('src', img[a] + ".svg");
+      document.getElementById("die-" + i).setAttribute('src', "images/" + img[a] + ".svg");
       diceArray[i] = a+1;
     }
   }
