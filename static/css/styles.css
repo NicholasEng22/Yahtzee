@@ -3,6 +3,5 @@ table, th, td {
 }
 
 .reserved{
-  border: 2px solid red;
-  fill: red;
+  background-color: grey;
 }
