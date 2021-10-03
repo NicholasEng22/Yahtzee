@@ -2,6 +2,9 @@ class Dice {
   #diceLabels;
   #diceElements;
   #diceArray;
+  #diceLabelSpin;
+
+  //rollsLeft;
 
   /**
    * The Dice class constructor
@@ -13,6 +16,7 @@ class Dice {
   constructor() {
     this.#diceLabels = ['blank', 'one', 'two', 'three', 'four', 'five', 'six'];
     this.#diceElements = Array.from(document.getElementsByClassName("die"));
+    this.#diceLabelSpin = ['spinning_one', 'spining_two', 'spinning_three', 'spinning_four', 'spinning_five', 'spinning_six'];
     this.#diceArray = [0, 0, 0, 0, 0];
   }
 
@@ -21,7 +25,7 @@ class Dice {
    * a current view of all five Yahtzee dice
    */
   getDiceElements() {
-    return this.#diceElements;
+    return this.#diceElements.slice();
   }
 
   /**
@@ -31,7 +35,7 @@ class Dice {
    * Dice values: 0 for blank, or 1 - 6
    */
   getDiceArray() {
-    return this.#diceArray;
+    return this.#diceArray.slice();
   }
 
   /**
@@ -40,15 +44,18 @@ class Dice {
    */
   reset() {
     console.log("Resetting the dice");
-    for (let i = 0; i < this.diceArray.length; i++) {
-      let rollingDie = document.getElementById("die-" + i);
-      let reserveBool = rollingDie.classList.contains("reserved");
-      if (reserveBool) {
-        rollingDie.classList.toggle("reserved"); //remove the reserved class
-      }
-      diceArray[i] = 0;
-    }
+    let diceElements = this.getDiceElements();
+    for (let i = 0; i < diceElements.length; i++) {
+      let currDie = diceElements[i];
+      let reserveBool = currDie.classList.contains("reserved");
 
+      if (reserveBool) {
+        currDie.classList.toggle("reserved"); //remove the reserved class
+      }
+      this.#setDie(i, 0);
+      //this.#diceElements[i].setAttribute('src', "images/blank.svg");
+    }
+    //rollsLeft = 3;
   }//reset()
 
   /**
@@ -58,20 +65,23 @@ class Dice {
    */
   roll() {
     console.log("Rolling the dice");
-    for (let i = 0; i < diceArray.length; i++) {
-      let rollingDie = document.getElementById("die-" + i); //this is also event.target.id
-      let reserveBool = rollingDie.classList.contains("reserved");
+    let diceElements = this.getDiceElements();
+    for (let i = 0; i < diceElements.length; i++) {
+      let reserveBool = diceElements[i].classList.contains("reserved");
       console.log(reserveBool);
       if (!reserveBool) {
-        let a = Math.floor(Math.random() * (5 - 0 + 1)) + 0; //generates the random numbers
-        document.getElementById("die-" + i).setAttribute('src', img[a] + ".svg");
-        diceArray[i] = a+1;
+        let a = Math.floor(Math.random() * (6)) + 1; //generates the random numbers
+        this.#setDie(i, a);
       }
     }
-
-    document.getElementById("rolls-remaining").innerHTML = rollsLeft;
-
+    //rollsLeft--;
   }//roll()
+
+  // spin() {
+  //   let callBack = this.roll;
+  //   setTimeout(function(){callBack();}, 2000);
+  //   console.log("Spinning");
+  // }
 
   /**
    * Performs all necessary actions to reserve/unreserve a particular die
@@ -81,7 +91,8 @@ class Dice {
    * @param {Object} element the <img> element representing the die to reserve
    */
   reserve(element) {
-    console.log("Reserving"+element.id);
+    console.log("Reserving " + element.target.id);
+    element.target.classList.toggle("reserved");
 
   }//reserve()
 
@@ -94,7 +105,10 @@ class Dice {
    * @param {int} newValue the new value of the die: 0 for blank or 1 - 6
    */
   #setDie(element, newValue) {
-
+    let currDie = this.#diceElements[element];
+    currDie.setAttribute('src', `images/${this.#diceLabels[newValue]}.svg`);
+    this.#diceArray[element] = newValue;
+    console.log(this.#diceArray);
   }//setDie()
 
 }//Dice class
