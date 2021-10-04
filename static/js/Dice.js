@@ -74,14 +74,20 @@ class Dice {
         this.#setDie(i, a);
       }
     }
-    //rollsLeft--;
   }//roll()
 
-  // spin() {
-  //   let callBack = this.roll;
-  //   setTimeout(function(){callBack();}, 2000);
-  //   console.log("Spinning");
-  // }
+  /**
+   * Creates an animation to "spin" the class
+   * Adds "reserved" as a class label to indicate a die is reserved
+   * Removes "reserved" a class label if a die is already reserved
+   *
+   * @param {Object} element the <img> element representing the die to reserve
+   */
+  spin() {
+    let callBack = this.roll;
+    setTimeout(function(){callBack();}, 2000);
+    console.log("Spinning");
+  }
 
   /**
    * Performs all necessary actions to reserve/unreserve a particular die
