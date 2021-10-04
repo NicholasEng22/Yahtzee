@@ -42,9 +42,6 @@ function loadGame(){
   //console.log(event.target);
   console.log("Load game was clicked");
   console.log(localStorage.getItem("Yahtzee"));
-  for (let i = 0; i < diceArray.length; i++) {
-    console.log(diceArray[i]);
-  }
 }
 
 function newGame(){
@@ -53,7 +50,6 @@ function newGame(){
   rollsLeft = 3;
   document.getElementById("rolls-remaining").innerHTML = rollsLeft;
   console.log("New game was clicked");
-
 }
 
 function rollDice(event){
