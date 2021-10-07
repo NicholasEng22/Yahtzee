@@ -10,7 +10,7 @@ import Dice from './Dice.js';
 
 /* Initialize Global Variables */
 let myDice = new Dice();
-
+let locked = false;
 let rollsLeft = 3;
 
 /* Add Event Listener */
@@ -54,8 +54,16 @@ function newGame(){
 
 function rollDice(){
   //console.log(event.target);
-  console.log("Roll dice was clicked");
-  myDice.spin();
-  rollsLeft--;
-  document.getElementById("rolls-remaining").innerHTML = rollsLeft;
+  if (!locked) {
+    locked = true;
+    setTimeout(unlock, 2500);
+    console.log("Roll dice was clicked");
+    myDice.spin(event);
+    rollsLeft--;
+    document.getElementById("rolls-remaining").innerHTML = rollsLeft;
+  }
+}
+
+function unlock () {
+    locked = false;
 }
