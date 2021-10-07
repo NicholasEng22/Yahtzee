@@ -52,10 +52,10 @@ function newGame(){
   console.log("New game was clicked");
 }
 
-function rollDice(event){
-  console.log(event.target);
+function rollDice(){
+  //console.log(event.target);
   console.log("Roll dice was clicked");
-  myDice.roll();
+  myDice.spin();
   rollsLeft--;
   document.getElementById("rolls-remaining").innerHTML = rollsLeft;
 }
