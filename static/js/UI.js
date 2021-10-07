@@ -56,7 +56,7 @@ function rollDice(){
   //console.log(event.target);
   if (!locked) {
     locked = true;
-    setTimeout(unlock, 2500);
+    setTimeout(unlock, 2000);
     console.log("Roll dice was clicked");
     myDice.spin(event);
     rollsLeft--;
