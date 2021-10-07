@@ -16,7 +16,7 @@ class Dice {
   constructor() {
     this.#diceLabels = ['blank', 'one', 'two', 'three', 'four', 'five', 'six'];
     this.#diceElements = Array.from(document.getElementsByClassName("die"));
-    this.#diceLabelSpin = ['spinning_one', 'spining_two', 'spinning_three', 'spinning_four', 'spinning_five', 'spinning_six'];
+    this.#diceLabelSpin = ['spinning_one', 'spinning_two', 'spinning_three', 'spinning_four', 'spinning_five', 'spinning_six'];
     this.#diceArray = [0, 0, 0, 0, 0];
   }
 
@@ -71,21 +71,30 @@ class Dice {
       console.log(reserveBool);
       if (!reserveBool) {
         let a = Math.floor(Math.random() * (6)) + 1; //generates the random numbers
-        this.#setDie(i, a);
+        this.#setDie(diceElements[i], a);
       }
     }
+    //rollsLeft--;
   }//roll()
 
-  /**
-   * Creates an animation to "spin" the class
-   * Adds "reserved" as a class label to indicate a die is reserved
-   * Removes "reserved" a class label if a die is already reserved
-   *
-   * @param {Object} element the <img> element representing the die to reserve
-   */
   spin() {
-    let callBack = this.roll;
-    setTimeout(function(){callBack();}, 2000);
+    let runTime = 1000; // Total spin animation time
+    let that = this; // Initialize this in this scope to use in the setInterval callback function
+    // Use setInterval to trigger a different dice spin every 200ms
+    let intervalID = setInterval(function() {
+      if(runTime <= 0) { // Execute the actual dice roll if roll time is over
+        clearInterval(intervalID);
+        that.roll();
+      }
+      else {
+        runTime -= 200; // Decreament the runTime counter by 200ms
+        let diceElements = that.getDiceElements();
+        for (let i = 0; i < diceElements.length; i++) { // Loop through each dice element and change it to a random dice spin image
+          let a = Math.floor(Math.random() * (6)); //generates the random numbers for rolling animation
+          that.#setSpinningDie(diceElements[i], a);
+        }
+      }
+    }, 300);
     console.log("Spinning");
   }
 
@@ -96,10 +105,9 @@ class Dice {
    *
    * @param {Object} element the <img> element representing the die to reserve
    */
-  reserve(element) {
-    console.log("Reserving " + element.target.id);
-    element.target.classList.toggle("reserved");
-
+  reserve(event) {
+    console.log("Reserving " + event.target.id);
+    event.target.classList.toggle("reserved");
   }//reserve()
 
   /**
@@ -111,11 +119,19 @@ class Dice {
    * @param {int} newValue the new value of the die: 0 for blank or 1 - 6
    */
   #setDie(element, newValue) {
-    let currDie = this.#diceElements[element];
-    currDie.setAttribute('src', `images/${this.#diceLabels[newValue]}.svg`);
-    this.#diceArray[element] = newValue;
-    console.log(this.#diceArray);
+    let dieIndex = element.id.split("die-")[1]; //finds the number id for each dice. Split retuns an array
+    element.setAttribute('src', `images/${this.#diceLabels[newValue]}.svg`);
+    this.#diceArray[dieIndex] = newValue;
   }//setDie()
+
+  #setSpinningDie(element, newValue) {
+    let dieIndex = element.id.split("die-")[1];
+    let diceElements = this.getDiceElements();
+    let reserveBool = diceElements[dieIndex].classList.contains("reserved");
+    if (!reserveBool) {
+      element.setAttribute('src', `images/${this.#diceLabelSpin[newValue]}.svg`);
+    }
+  }
 
 }//Dice class
 
