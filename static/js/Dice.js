@@ -65,6 +65,7 @@ class Dice {
    */
   roll() {
     console.log("Rolling the dice");
+    this.#noReserve();
     let diceElements = this.getDiceElements();
     for (let i = 0; i < diceElements.length; i++) {
       let reserveBool = diceElements[i].classList.contains("reserved");
@@ -81,6 +82,7 @@ class Dice {
     let runTime = 1000; // Total spin animation time
     let that = this; // Initialize this in this scope to use in the setInterval callback function
     // Use setInterval to trigger a different dice spin every 200ms
+    that.#noReserve();
     let intervalID = setInterval(function() {
       if(runTime <= 0) { // Execute the actual dice roll if roll time is over
         clearInterval(intervalID);
@@ -106,8 +108,19 @@ class Dice {
    * @param {Object} element the <img> element representing the die to reserve
    */
   reserve(event) {
-    console.log("Reserving " + event.target.id);
-    event.target.classList.toggle("reserved");
+    let diceElements = this.getDiceElements();
+    for (let i = 0; i < diceElements.length; i++) {
+      let reserveBool = diceElements[i].classList.contains("noReserve");
+      if (!reserveBool) {
+        console.log("Reserving " + event.target.id);
+        event.target.classList.toggle("reserved");
+      }
+      else {
+        console.log("Cannot reserve " + event.target.id + " at this time.");
+      }
+    }
+    // console.log("Reserving " + event.target.id);
+    // event.target.classList.toggle("reserved");
   }//reserve()
 
   /**
@@ -130,6 +143,13 @@ class Dice {
     let reserveBool = diceElements[dieIndex].classList.contains("reserved");
     if (!reserveBool) {
       element.setAttribute('src', `images/${this.#diceLabelSpin[newValue]}.svg`);
+    }
+  }
+
+  #noReserve(){
+    let diceElements = this.getDiceElements();
+    for (let i = 0; i < diceElements.length; i++) {
+      diceElements[i].classList.toggle("noReserve");
     }
   }
 
