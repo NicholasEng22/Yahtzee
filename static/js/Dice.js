@@ -52,11 +52,12 @@ class Dice {
       if (reserveBool) {
         currDie.classList.toggle("reserved"); //remove the reserved class
       }
-      this.#setDie(i, 0);
+      this.#setDie(this.#diceElements[i], 0);
       //this.#diceElements[i].setAttribute('src', "images/blank.svg");
     }
     //rollsLeft = 3;
   }//reset()
+
 
   /**
    * Performs all necessary actions to roll and update display of dice
