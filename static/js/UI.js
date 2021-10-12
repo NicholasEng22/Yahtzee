@@ -34,22 +34,34 @@ function reserveDie(event){
 
 function saveGame(){
   //console.log(event.target);
-  console.log("Save game was clicked");
-  localStorage.setItem("Yahtzee", "Test");
+  if (!locked) {
+    console.log("Save game was clicked");
+    localStorage.setItem("Yahtzee", "Test");
+  } else {
+    console.log("Dice are rolling. You cannot save game at this time.");
+  }
 }
 
 function loadGame(){
   //console.log(event.target);
   console.log("Load game was clicked");
-  console.log(localStorage.getItem("Yahtzee"));
+  if (!locked) {
+    console.log(localStorage.getItem("Yahtzee"));
+  } else {
+    console.log("Dice are rolling. You cannot load game at this time.");
+  }
 }
 
 function newGame(){
   //console.log(event.target);
-  myDice.reset();
-  rollsLeft = 3;
-  document.getElementById("rolls-remaining").innerHTML = rollsLeft;
   console.log("New game was clicked");
+  if (!locked) {
+    myDice.reset();
+    rollsLeft = 3;
+    document.getElementById("rolls-remaining").innerHTML = rollsLeft;
+  } else {
+    console.log("Dice are rolling. You cannot start a new game at this time.");
+  }
 }
 
 function rollDice(){
