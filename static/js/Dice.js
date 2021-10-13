@@ -3,6 +3,7 @@ class Dice {
   #diceElements;
   #diceArray;
   #diceLabelSpin;
+  #blankDie = true;
 
   //rollsLeft;
 
@@ -55,6 +56,7 @@ class Dice {
       this.#setDie(this.#diceElements[i], 0);
       //this.#diceElements[i].setAttribute('src', "images/blank.svg");
     }
+    this.#blankDie = true;
     //rollsLeft = 3;
   }//reset()
 
@@ -66,6 +68,7 @@ class Dice {
    */
   roll() {
     console.log("Rolling the dice");
+    this.#blankDie = false;
     this.#noReserve();
     let diceElements = this.getDiceElements();
     for (let i = 0; i < diceElements.length; i++) {
@@ -109,17 +112,22 @@ class Dice {
    * @param {Object} element the <img> element representing the die to reserve
    */
   reserve(event) {
-    let diceElements = this.getDiceElements();
-    for (let i = 0; i < diceElements.length; i++) {
-      let reserveBool = diceElements[i].classList.contains("noReserve");
-      if (!reserveBool) {
-        console.log("Reserving " + event.target.id);
-        event.target.classList.toggle("reserved");
+    if (!this.#blankDie) {
+        let diceElements = this.getDiceElements();
+      for (let i = 0; i < diceElements.length; i++) {
+        let reserveBool = diceElements[i].classList.contains("noReserve");
+        if (!reserveBool) {
+          console.log("Reserving " + event.target.id);
+          event.target.classList.toggle("reserved");
+        }
+        else {
+          console.log("Cannot reserve " + event.target.id + " at this time.");
+        }
       }
-      else {
-        console.log("Cannot reserve " + event.target.id + " at this time.");
-      }
+    } else {
+      console.log("Cannot reserve blank die.");
     }
+
     // console.log("Reserving " + event.target.id);
     // event.target.classList.toggle("reserved");
   }//reserve()
