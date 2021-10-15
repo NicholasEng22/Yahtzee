@@ -19,8 +19,12 @@ document.getElementById('new-game').addEventListener('click', newGame);
 document.getElementById('load-game').addEventListener('click', loadGame);
 document.getElementById('roll-dice').addEventListener('click', rollDice);
 
-for (let i = 0; i < 5; i++) {
-  document.getElementById('die-' + i).addEventListener('dblclick', reserveDie); //Add an event listener to each die
+// for (let i = 0; i < document.getElementsByClassNameById('lower score').length; i++) {
+//   document.getElementsByClassNameById('lower score')[i].addEventListener('dblclick', reserveDie); //Add an event listener to each die
+// }
+
+for (let i = 0; i < document.getElementsByClassName('die').length; i++) {
+  myDice.getDiceElements()[i].addEventListener('dblclick', reserveDie); //Add an event listener to each die
 }
 
 document.getElementById("rolls-remaining").innerHTML = rollsLeft; //Intializes the start roll
