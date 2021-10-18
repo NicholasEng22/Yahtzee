@@ -22,8 +22,11 @@ class Scorecard {
    */
   enterScore(element, value, diceArray){
     let currRoll;
-    //this.#categoryElements[element] = value;
+    //this.#categoryElements()[element] = value;
     console.log("Works");
+    //console.log(this.getCategoryElements()[0].value);
+
+    //calls validate
   }
 
   getCategoryElements(){
