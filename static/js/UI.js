@@ -7,9 +7,11 @@
 
 /* Connect Dice class to UI */
 import Dice from './Dice.js';
+import Scorecard from './Scorecard.js';
 
 /* Initialize Global Variables */
 let myDice = new Dice();
+let player = new Scorecard();
 let locked = false;
 let rollsLeft = 3;
 
@@ -25,6 +27,17 @@ document.getElementById('roll-dice').addEventListener('click', rollDice);
 
 for (let i = 0; i < document.getElementsByClassName('die').length; i++) {
   myDice.getDiceElements()[i].addEventListener('dblclick', reserveDie); //Add an event listener to each die
+}
+
+for (let i = 0; i < document.getElementsByClassName('score').length; i++) {
+  player.getCategoryElements()[i].addEventListener('keypress', function(){
+    console.log(event.target.id);
+    if (event.key == 'Enter'){
+      let element = 1;
+      let value = 1;
+      player.enterScore(event.target.id, value, myDice.getDiceArray());
+    }
+  }); //Add an event listener to each die
 }
 
 document.getElementById("rolls-remaining").innerHTML = rollsLeft; //Intializes the start roll
