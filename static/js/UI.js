@@ -31,11 +31,12 @@ for (let i = 0; i < document.getElementsByClassName('die').length; i++) {
 
 for (let i = 0; i < document.getElementsByClassName('score').length; i++) {
   player.getCategoryElements()[i].addEventListener('keypress', function(){
-    console.log(event.target.id);
+    console.log(event.target);
+    //console.log(player.getCategoryElements());
     if (event.key == 'Enter'){
-      let element = 1;
-      let value = 1;
-      player.enterScore(event.target.id, value, myDice.getDiceArray());
+      let element = event.target;
+      let value = event.target.value;
+      player.enterScore(element, value, myDice.getDiceArray());
     }
   }); //Add an event listener to each die
 }
