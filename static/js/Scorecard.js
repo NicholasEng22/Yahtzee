@@ -11,7 +11,7 @@ class Scorecard {
 
   /**
    * Attempts to enter a score for a particular category
-   * If a score is valid for a particular cateogry (using the given dice roll)
+   * If a score is valid for a particular category (using the given dice roll)
    *   the score is entered, totals are recalculated, and the category  is disabled.
    * If a score is invalid, the bad score is removed
    *
@@ -21,12 +21,13 @@ class Scorecard {
    * @return {Boolean} a Boolean value indicating whether the score is valid for the category
    */
   enterScore(element, value, diceArray){
-
-
+    let currRoll;
+    //this.#categoryElements[element] = value;
+    console.log("Works");
   }
 
   getCategoryElements(){
-
+    return this.#categoryElements.slice();
   }
 
   /**
