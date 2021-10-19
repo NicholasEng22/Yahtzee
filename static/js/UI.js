@@ -31,7 +31,7 @@ for (let i = 0; i < document.getElementsByClassName('die').length; i++) {
 
 for (let i = 0; i < document.getElementsByClassName('score').length; i++) {
   player.getCategoryElements()[i].addEventListener('keypress', function(){
-    console.log(event.target);
+    //console.log(event.target);
     //console.log(player.getCategoryElements());
     if (event.key == 'Enter'){
       let element = event.target;
