@@ -6,7 +6,7 @@ class Scorecard {
   constructor(){
     this.#categoryElements = Array.from(document.getElementsByClassName("score"));
     this.#totalElements = Array.from(document.getElementsByClassName("total"));
-    this.#upperCategories =['one', 'two', 'three', 'four', 'five', 'six'];
+    this.#upperCategories = ['one', 'two', 'three', 'four', 'five', 'six'];
   }
 
   /**
@@ -21,12 +21,14 @@ class Scorecard {
    * @return {Boolean} a Boolean value indicating whether the score is valid for the category
    */
   enterScore(element, value, diceArray){
-    let currRoll;
-    //this.#categoryElements()[element] = value;
-    console.log("Works");
-    //console.log(this.getCategoryElements()[0].value);
-
-    //calls validate
+    //console.log(this.#validateScore(element.id, value, diceArray));
+    if (this.#validateScore(element.id, value, diceArray)) {
+      console.log("Category " + element.id + " set to " + value + ".");
+      //Set the value of the category Element
+      //element.setAttribute("disabled", false);
+      //element.setAttribute("editable", true);
+    }
+    //this.#categoryElements()[0] = value;
   }
 
   getCategoryElements(){
@@ -50,8 +52,7 @@ class Scorecard {
    *
    */
   reset(){
-
-
+    element.setAttribute("disabled", true);
   }
 
   /**
@@ -83,7 +84,18 @@ class Scorecard {
    * @return {Boolean} a Boolean value indicating whether the score is valid for the category
    */
   #validateScore(id, value, diceArray){
+    let validInput = false;
+    let currRoll = diceArray;
 
+    //console.log(currRoll);
+
+    if (!isNaN(value) && value !== ''){
+      console.log("Score is valid.")
+      validInput = true; // Guess what, it's a bloody number!
+    } else {
+      console.log("Score is not valid.")
+    }
+    return validInput;
   }
 
   /**
