@@ -14,6 +14,7 @@ let myDice = new Dice();
 let player = new Scorecard();
 let locked = false;
 let rollsLeft = 3;
+//let window.myDice = myDice; //needed to run tests...
 
 /* Add Event Listener */
 document.getElementById('save-game').addEventListener('click', saveGame);
@@ -21,29 +22,35 @@ document.getElementById('new-game').addEventListener('click', newGame);
 document.getElementById('load-game').addEventListener('click', loadGame);
 document.getElementById('roll-dice').addEventListener('click', rollDice);
 
-// for (let i = 0; i < document.getElementsByClassNameById('lower score').length; i++) {
-//   document.getElementsByClassNameById('lower score')[i].addEventListener('dblclick', reserveDie); //Add an event listener to each die
-// }
+myDice.getDiceElements().forEach(function(die){
+  die.addEventListener('dblclick', function(event){
+    console.log("Reserve toggled!");
+    myDice.reserve(event.target);
+  });
+});
 
-for (let i = 0; i < document.getElementsByClassName('die').length; i++) {
-  myDice.getDiceElements()[i].addEventListener('dblclick', reserveDie); //Add an event listener to each die
-}
-
-for (let i = 0; i < document.getElementsByClassName('score').length; i++) {
-  player.getCategoryElements()[i].addEventListener('keypress', function(){
-    //console.log(event.target);
-    //console.log(player.getCategoryElements());
-    if (event.key == 'Enter'){
-      let element = event.target;
-      let value = event.target.value;
-      player.enterScore(element, value, myDice.getDiceArray());
-    }
-  }); //Add an event listener to each die
-}
+player.getCategoryElements().forEach(function(category){
+  category.addEventListener('keypress', endTurn);
+});
 
 document.getElementById("rolls-remaining").innerHTML = rollsLeft; //Intializes the start roll
 
 /* Functions */
+
+/**
+ * Attempts to end a turn
+ *
+ * @param {Object} event Important event info
+ *
+ */
+function endTurn(event){
+  if (event.key == 'Enter'){
+    let element = event.target;
+    let value = event.target.value;
+    player.enterScore(element, value, myDice.getDiceArray());
+  }
+}
+
 function reserveDie(event){
   console.log("Reserve toggled!");
   //console.log("Event: " + event);
@@ -75,6 +82,7 @@ function newGame(){
   console.log("New game was clicked");
   if (!locked) {
     myDice.reset();
+    player.reset();
     rollsLeft = 3;
     document.getElementById("rolls-remaining").innerHTML = rollsLeft;
   } else {
@@ -96,4 +104,16 @@ function rollDice(){
 
 function unlock () {
     locked = false;
+}
+
+/**
+ * Updates #feedback-content with an appropriate message and style.
+ * If both msg and type are blank, #user-feedback becomes hidden
+ *
+ * @param {String} type A context (ie. "good"/"bad"/"info") for the feedback
+ * @param {String} msg The message to display for the user
+ *
+ */
+function feedback(type, msg) {
+
 }
