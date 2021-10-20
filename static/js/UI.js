@@ -44,7 +44,7 @@ document.getElementById("rolls-remaining").innerHTML = rollsLeft; //Intializes t
  *
  */
 function endTurn(event){
-  if (event.key == 'Enter'){
+  if (event.key == 'Enter'){ //event.keyCode == '13'
     let element = event.target;
     let value = event.target.value;
     player.enterScore(element, value, myDice.getDiceArray());
@@ -61,7 +61,8 @@ function saveGame(){
   //console.log(event.target);
   if (!locked) {
     console.log("Save game was clicked");
-    localStorage.setItem("Yahtzee", "Test");
+    let game = player.toObject();
+    localStorage.setItem("Game#1", game);
   } else {
     console.log("Dice are rolling. You cannot save game at this time.");
   }
@@ -71,7 +72,7 @@ function loadGame(){
   //console.log(event.target);
   console.log("Load game was clicked");
   if (!locked) {
-    console.log(localStorage.getItem("Yahtzee"));
+    console.log(localStorage.getItem("Game#1"));
   } else {
     console.log("Dice are rolling. You cannot load game at this time.");
   }
