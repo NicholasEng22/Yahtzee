@@ -31,7 +31,6 @@ class Scorecard {
       element.classList.toggle("disabled");
       this.#updateTotals(value);
     }
-    //this.#categoryElements()[0] = value;
   }
 
   getCategoryElements(){
@@ -57,11 +56,8 @@ class Scorecard {
   reset(){
     let scoreEl = this.#categoryElements;
     scoreEl.forEach(function(score){
-    score.removeAttribute("disabled");
-      if (score.classList.contains("disabled")){
-        score.classList.toggle("disabled");
-        score.value = "";
-      }
+      score.removeAttribute("disabled");
+      score.value = "";
     })
 
     this.#totalElements.forEach(function(total) {
@@ -88,7 +84,8 @@ class Scorecard {
    *
    */
   toObject(){
-
+    let myJSON = JSON.stringify(this.#categoryElements);
+    return(myJSON);
   }
 
   /**
