@@ -22,11 +22,14 @@ class Scorecard {
    */
   enterScore(element, value, diceArray){
     //console.log(this.#validateScore(element.id, value, diceArray));
+    console.log(this.#categoryElements);
+    console.log(element);
     if (this.#validateScore(element.id, value, diceArray)) {
       console.log("Category " + element.id + " set to " + value + ".");
       //Set the value of the category Element
-      //element.setAttribute("disabled", false);
-      //element.setAttribute("editable", true);
+      element.setAttribute("disabled", false);
+      element.classList.toggle("disabled");
+      this.#updateTotals(value);
     }
     //this.#categoryElements()[0] = value;
   }
@@ -47,12 +50,25 @@ class Scorecard {
 
   /**
    * Resets the scorecard for a new game
-   *   -Scores are removed from all caregories
+   *   -Scores are removed from all categories
    *   -No categories are disabled
    *
    */
   reset(){
-    element.setAttribute("disabled", true);
+    let scoreEl = this.#categoryElements;
+    scoreEl.forEach(function(score){
+    score.removeAttribute("disabled");
+      if (score.classList.contains("disabled")){
+        score.classList.toggle("disabled");
+        score.value = "";
+      }
+    })
+
+    this.#totalElements.forEach(function(total) {
+      total.innerText = "";
+    })
+
+    //element.setAttribute("editable", true);
   }
 
   /**
@@ -87,8 +103,6 @@ class Scorecard {
     let validInput = false;
     let currRoll = diceArray;
 
-    //console.log(currRoll);
-
     if (!isNaN(value) && value !== ''){
       console.log("Score is valid.")
       validInput = true; // Guess what, it's a bloody number!
@@ -102,8 +116,17 @@ class Scorecard {
    * Updates both the upper and lower totals
    *
    */
-  #updateTotals(){
-
+  #updateTotals(value){
+    this.#totalElements.forEach(function(total){
+      let totalVal = total.innerText.length > 0 ? total.innerText: 0;
+      if (total.classList.contains("upper")) {
+        total.innerText = parseInt(totalVal) + parseInt(value); //Add the upper values
+        console.log(total);
+      } else {
+        //Add to lower
+      }
+    })
+    console.log(this.#totalElements);
   }
 
 }//Scorecard class
