@@ -113,11 +113,11 @@ class Dice {
     for (let i = 0; i < diceElements.length; i++) {
       let reserveBool = diceElements[i].classList.contains("noReserve");
       if (!reserveBool) {
-        console.log("Reserving " + event.target.id);
-        event.target.classList.toggle("reserved");
+        console.log("Reserving " + event.id);
+        event.classList.toggle("reserved");
       }
       else {
-        console.log("Cannot reserve " + event.target.id + " at this time.");
+        console.log("Cannot reserve " + event.id + " at this time.");
       }
     }
     // console.log("Reserving " + event.target.id);
@@ -137,6 +137,17 @@ class Dice {
     element.setAttribute('src', `images/${this.#diceLabels[newValue]}.svg`);
     this.#diceArray[dieIndex] = newValue;
   }//setDie()
+
+  /**
+   * A useful testing method to conveniently change dice
+   * Repeatedly calls this.#setDie
+   *
+   * @param {Array} newDiceArray an array of integers
+   */
+  setDice(newDiceArray){
+    console.log("This function has not been fully implemented.");
+  }
+
 
   #setSpinningDie(element, newValue) {
     let dieIndex = element.id.split("die-")[1];
