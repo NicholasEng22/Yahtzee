@@ -61,7 +61,7 @@ function saveGame(){
   //console.log(event.target);
   if (!locked) {
     console.log("Save game was clicked");
-    let game = player.toObject();
+    let game = JSON.stringify(player.toObject);
     localStorage.setItem("Game#1", game);
   } else {
     console.log("Dice are rolling. You cannot save game at this time.");
@@ -70,9 +70,11 @@ function saveGame(){
 
 function loadGame(){
   //console.log(event.target);
+  console.log(player);
   console.log("Load game was clicked");
   if (!locked) {
-    console.log(localStorage.getItem("Game#1"));
+    let currGame = localStorage.getItem("Game#1");
+    //console.log(localStorage.getItem("Game#1"));
   } else {
     console.log("Dice are rolling. You cannot load game at this time.");
   }
