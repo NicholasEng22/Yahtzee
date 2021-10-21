@@ -21,9 +21,8 @@ class Scorecard {
    * @return {Boolean} a Boolean value indicating whether the score is valid for the category
    */
   enterScore(element, value, diceArray){
-    //console.log(this.#validateScore(element.id, value, diceArray));
-    console.log(this.#categoryElements);
-    console.log(element);
+    //console.log(this.#categoryElements);
+    //console.log(element);
     if (this.#validateScore(element.id, value, diceArray)) {
       console.log("Category " + element.id + " set to " + value + ".");
       //Set the value of the category Element
@@ -84,8 +83,21 @@ class Scorecard {
    *
    */
   toObject(){
-    let myJSON = JSON.stringify(this.#categoryElements);
-    return(myJSON);
+    let obj = {
+      one: document.getElementById("one");
+      two: document.getElementById("two");
+      three: document.getElementById("three");
+      four: document.getElementById("four");
+      five: document.getElementById("five");
+      six: document.getElementById("six");
+      3-of-a-kind: document.getElementById("3-of-a-kind");
+      4-of-a-kind: document.getElementById("4-of-a-kind");
+      full-house: document.getElementbyId("full-house");
+      small-straight: document.getElementById("small-straight");
+      large-straight: document.getElementById("large-straight");
+      chance: document.getElementById("chance");
+    };
+    return(obj);
   }
 
   /**
