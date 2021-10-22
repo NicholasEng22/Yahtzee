@@ -24,11 +24,11 @@ class Scorecard {
     //console.log(this.#categoryElements);
     //console.log(element);
     if (this.#validateScore(element.id, value, diceArray)) {
-      console.log("Category " + element.id + " set to " + value + ".");
+      //console.log("Category " + element.id + " set to " + value + ".");
       //Set the value of the category Element
       element.setAttribute("disabled", false);
       element.classList.toggle("disabled");
-      this.#updateTotals(value);
+      this.#updateTotals(value, element);
     }
   }
 
@@ -73,7 +73,15 @@ class Scorecard {
    *
    */
   loadScores(objectVersion){
-
+    this.#categoryElements.forEach(scoreElement => {
+      scoreElement.value = objectVersion[scoreElement.id];
+      if (objectVersion[scoreElement.id] != ""){
+        scoreElement.setAttribute("disabled", true);
+      }
+    })
+    this.#totalElements.forEach(totalElement => {
+      totalElement.innerText = objectVersion[totalElement.id];
+    })
   }
 
   /**
@@ -83,21 +91,15 @@ class Scorecard {
    *
    */
   toObject(){
-    let obj = {
-      one: document.getElementById("one");
-      two: document.getElementById("two");
-      three: document.getElementById("three");
-      four: document.getElementById("four");
-      five: document.getElementById("five");
-      six: document.getElementById("six");
-      3-of-a-kind: document.getElementById("3-of-a-kind");
-      4-of-a-kind: document.getElementById("4-of-a-kind");
-      full-house: document.getElementbyId("full-house");
-      small-straight: document.getElementById("small-straight");
-      large-straight: document.getElementById("large-straight");
-      chance: document.getElementById("chance");
-    };
-    return(obj);
+    let game = {};
+    this.#categoryElements.forEach(scoreElement => {
+      game[scoreElement.id] = scoreElement.value;
+    })
+    this.#totalElements.forEach(totalElement => {
+      game[totalElement.id] = totalElement.innerText;
+    })
+    console.log(game);
+    return(game);
   }
 
   /**
@@ -125,16 +127,24 @@ class Scorecard {
    * Updates both the upper and lower totals
    *
    */
-  #updateTotals(value){
-    this.#totalElements.forEach(function(total){
-      let totalVal = total.innerText.length > 0 ? total.innerText: 0;
-      if (total.classList.contains("upper")) {
-        total.innerText = parseInt(totalVal) + parseInt(value); //Add the upper values
-        console.log(total);
-      } else {
-        //Add to lower
-      }
-    })
+  #updateTotals(value, element){
+    let total = document.getElementById("upper-total");
+    let totalScore = document.getElementById("upper-section-total");
+    let bonus = document.getElementById("upper-bonus");
+    let upperTotal = document.getElementById("upper-section-total-lower");
+    let lowerTotal = document.getElementById("lower-total");
+    let grand = document.getElementById("grand-total");
+
+    if (element.classList.contains("upper")) {
+      total.innerText = total.innerText.length > 0 ? parseInt(total.innerText) + parseInt(value): value;
+      totalScore.innerText = totalScore.innerText.length > 0 ? parseInt(totalScore.innerText) + parseInt(value): value;
+      upperTotal.innerText = upperTotal.innerText.length > 0 ? parseInt(upperTotal.innerText) + parseInt(value): value;
+      grand.innerText = grand.innerText.length > 0 ? parseInt(grand.innerText) + parseInt(value): value;
+      //bonus.innerText = bonus.innerText.length > 0 ? parseInt(bonus.innerText) + parseInt(value): value;
+    } else if (element.classList.contains("lower")) {
+      lowerTotal.innerText = lowerTotal.innerText.length > 0 ? parseInt(lowerTotal.innerText) + parseInt(value): value;
+      grand.innerText = grand.innerText.length > 0 ? parseInt(grand.innerText) + parseInt(value): value;
+    }
     console.log(this.#totalElements);
   }
 
