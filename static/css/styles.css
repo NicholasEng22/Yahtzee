@@ -26,9 +26,19 @@ table, th, td {
   background-color: grey;
 }
 
-.disabled {
+.total {
+  text-align: center;
+  font-weight: bold;
+  color:black;
+}
+
+input:disabled {
   background-color: lightgrey;
   text-align: center;
   font-weight: bold;
   color: black;
+}
+
+input:enabled {
+  background-color: white;
 }
