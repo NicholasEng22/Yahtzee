@@ -47,7 +47,14 @@ function endTurn(event){
   if (event.key == 'Enter'){ //event.keyCode == '13'
     let element = event.target;
     let value = event.target.value;
-    player.enterScore(element, value, myDice.getDiceArray());
+    let valid = player.enterScore(element, value, myDice.getDiceArray());
+    if (valid) {
+      console.log("Valid");
+      feedback("good", "The score you entered is valid.");
+    } else {
+      console.log("invalid");
+      feedback("bad", "The score you entered is not valid.");
+    }
   }
 }
 
@@ -121,5 +128,16 @@ function unlock () {
  *
  */
 function feedback(type, msg) {
-
+  let el = document.getElementById("feedback-content");
+  el.classList.toggle("hidden");
+  if (type === "good"){
+    el.innerText = msg;
+    el.classList.toggle("good");
+  } else if  (type === "bad"){
+    el.InnerText = msg;
+    el.classList.toggle("bad");
+  } else {
+    el.innerText = msg;
+    el.classList.toggle("info");
+  }
 }
