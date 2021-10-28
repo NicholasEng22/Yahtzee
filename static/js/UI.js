@@ -45,18 +45,25 @@ document.getElementById("rolls-remaining").innerHTML = rollsLeft; //Intializes t
  *
  */
 function endTurn(event){
-  if (event.key == 'Enter'){ //event.keyCode == '13'
-    let element = event.target;
-    let value = event.target.value;
-    let valid = player.enterScore(element, value, myDice.getDiceArray());
-    //Add a clear function for 
-    if (valid) {
-      // console.log("Valid");
-      feedback("good", "The score you entered is valid.");
-    } else {
-      // console.log("invalid");
-      feedback("bad", "The score you entered is not valid.");
+  console.log("Before " + myDice.getDiceArray());
+  myDice.setDice([1,1,1,1,1]);
+  console.log("After " + myDice.getDiceArray());
+  if (!locked){
+    if (event.key == 'Enter'){ //event.keyCode == '13'
+      let element = event.target;
+      let value = event.target.value;
+      let valid = player.enterScore(element, value, myDice.getDiceArray());
+      //Add a clear function for
+      if (valid) {
+        // console.log("Valid");
+        feedback("good", "The score you entered is valid.");
+      } else {
+        // console.log("invalid");
+        feedback("bad", "The score you entered is not valid.");
+      }
     }
+  } else {
+    feedback("info", "You cannot enter a score while the die are rolling.");
   }
 }
 
@@ -131,10 +138,13 @@ function unlock () {
  */
 function feedback(type, msg) {
   let el = document.getElementById("feedback-content");
-  document.getElementById("feedback").classList.toggle("hidden");
-  if(el.hasHidden)
-  //if (type) {
-  el.classList.toggle(type);
-  //}
+  let textBox = document.getElementById("feedback");
+  textBox.classList.remove("hidden");
+  el.classList.add(type);
   el.innerText = msg;
+  setTimeout(function(){
+    el.classList.remove(type);
+    el.innerText = "";
+    textBox.classList.add("hidden");
+  }, 2000);
 }
