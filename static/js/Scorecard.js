@@ -27,8 +27,12 @@ class Scorecard {
       //console.log("Category " + element.id + " set to " + value + ".");
       //Set the value of the category Element
       element.setAttribute("disabled", false);
-      element.classList.toggle("disabled");
+      //element.classList.toggle("disabled"); //class for css
       this.#updateTotals(value, element);
+      return true;
+    }
+    else {
+      return false;
     }
   }
 
