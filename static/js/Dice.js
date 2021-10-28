@@ -145,7 +145,16 @@ class Dice {
    * @param {Array} newDiceArray an array of integers
    */
   setDice(newDiceArray){
-    console.log("This function has not been fully implemented.");
+    let elements = this.getDiceElements();
+    let that = this;
+    console.log("Elements " + elements);
+    newDiceArray.forEach(function(dieValue, index){
+      console.log("Die Value " + dieValue);
+      console.log("Index " + elements[index]);
+      // debugger;
+      that.#setDie(elements[index], dieValue);
+    });
+    console.log("You cheater.");
   }
 
 
