@@ -24,6 +24,7 @@ document.getElementById('roll-dice').addEventListener('click', rollDice);
 
 myDice.getDiceElements().forEach(function(die){
   die.addEventListener('dblclick', function(event){
+    console.log("Event: " + event);
     console.log("Reserve toggled!");
     myDice.reserve(event.target);
   });
@@ -48,11 +49,12 @@ function endTurn(event){
     let element = event.target;
     let value = event.target.value;
     let valid = player.enterScore(element, value, myDice.getDiceArray());
+    //Add a clear function for 
     if (valid) {
-      console.log("Valid");
+      // console.log("Valid");
       feedback("good", "The score you entered is valid.");
     } else {
-      console.log("invalid");
+      // console.log("invalid");
       feedback("bad", "The score you entered is not valid.");
     }
   }
@@ -129,15 +131,10 @@ function unlock () {
  */
 function feedback(type, msg) {
   let el = document.getElementById("feedback-content");
-  el.classList.toggle("hidden");
-  if (type === "good"){
-    el.innerText = msg;
-    el.classList.toggle("good");
-  } else if  (type === "bad"){
-    el.InnerText = msg;
-    el.classList.toggle("bad");
-  } else {
-    el.innerText = msg;
-    el.classList.toggle("info");
-  }
+  document.getElementById("feedback").classList.toggle("hidden");
+  if(el.hasHidden)
+  //if (type) {
+  el.classList.toggle(type);
+  //}
+  el.innerText = msg;
 }
