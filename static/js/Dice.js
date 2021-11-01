@@ -80,7 +80,7 @@ class Dice {
   }//roll()
 
   spin() {
-    let runTime = 1000; // Total spin animation time
+    let runTime = 1000; // Total spin animation time 1000 ms
     let that = this; // Initialize this in this scope to use in the setInterval callback function
     // Use setInterval to trigger a different dice spin every 200ms
     that.#noReserve();
@@ -97,7 +97,7 @@ class Dice {
           that.#setSpinningDie(diceElements[i], a);
         }
       }
-    }, 300);
+    }, 300); //300
     console.log("Spinning");
   }
 
@@ -112,7 +112,8 @@ class Dice {
     let diceElements = this.getDiceElements();
     for (let i = 0; i < diceElements.length; i++) {
       let reserveBool = diceElements[i].classList.contains("noReserve");
-      if (!reserveBool) {
+      let dieValue = this.#diceArray[i];
+      if (!reserveBool && dieValue > 0) {
         console.log("Reserving " + event.id);
         event.classList.toggle("reserved");
       }
@@ -146,14 +147,13 @@ class Dice {
    */
   setDice(newDiceArray){
     let elements = this.getDiceElements();
-    let that = this;
-    console.log("Elements " + elements);
+    //console.log("Elements " + elements);
     newDiceArray.forEach(function(dieValue, index){
-      console.log("Die Value " + dieValue);
-      console.log("Index " + elements[index]);
+      // console.log("Die Value " + dieValue);
+      // console.log("Index " + elements[index]);
       // debugger;
-      that.#setDie(elements[index], dieValue);
-    });
+      this.#setDie(elements[index], dieValue);
+    }.bind(this));
     console.log("You cheater.");
   }
 
