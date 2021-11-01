@@ -47,7 +47,19 @@ class Scorecard {
    * @return {Boolean} a Boolean value indicating whether the scorecard is full
    */
   isFull(){
+    let scoreElement = this.#categoryElements;
+    let totalDisabled = scoreElement.reduce(function(total, currEl, index, arr){
+      if (currEl.hasAttribute("disabled")){
+        total++;
+      }
+      return total;
+    }, 0);
 
+    if (totalDisabled == scoreElement.length) { //length is 13
+      return true;
+    } else {
+      return false;
+    }
   }
 
   /**
@@ -106,6 +118,27 @@ class Scorecard {
     return(game);
   }
 
+  autoFillInputs(diceArray){
+    let inputMap = {one: 1, two: 2, three: 3, four: 4, five: 5, six: 6};
+    let totalInput = diceArray.reduce(function(totalValue, currValue){
+      totalValue[currValue] += currValue;
+      return totalValue;
+    }, {1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 0});
+    this.#categoryElements.forEach(function(scoreInput) {
+      if(inputMap[scoreInput.id] != null) {
+        scoreInput.value = totalInput[inputMap[scoreInput.id]];
+      }
+    });
+  }
+
+  clearInputs(){
+    this.#categoryElements.forEach(function(scoreElement){
+      if (!scoreElement.hasAttribute("disabled")) {
+        scoreElement.value = "";
+      }
+    })
+  }
+
   /**
    * Validates a score for a particular category
    *
@@ -117,9 +150,27 @@ class Scorecard {
   #validateScore(id, value, diceArray){
     let validInput = false;
     let currRoll = diceArray;
+    let diceIDs = { one: 1, two: 2, three: 3, four: 4, five : 5, six : 6};
 
-    if (!isNaN(value) && value !== ''){
-      console.log("Score is valid.")
+    let diceCount = diceArray.reduce(function(totalValue, currValue){
+      totalValue[currValue] += currValue;
+      return totalValue;
+    }, {1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 0});
+
+    let upperScore = diceArray.reduce(function(total, curr){
+      return curr == diceIDs[id] ? total + curr: total;
+    }, 0);
+
+    if (Object.values(diceCount).includes(3)){
+      document.querySelector("3-of-a-kind").value = diceArray.reduce(function(total, curr) {
+        return total + curr;
+      }, 0);
+    }
+
+    // let lowerScore
+
+    if (!isNaN(value) && value !== '' && value == upperScore){
+      console.log("Score is valid.");
       validInput = true; // Guess what, it's a bloody number!
     } else {
       console.log("Score is not valid.")
@@ -141,9 +192,12 @@ class Scorecard {
 
     if (element.classList.contains("upper")) {
       total.innerText = total.innerText.length > 0 ? parseInt(total.innerText) + parseInt(value): value;
+      bonus.innerText = total.innerText > 63 ? 35: 0;
+      value = parseInt(value) + parseInt(bonus.innerText);
       totalScore.innerText = totalScore.innerText.length > 0 ? parseInt(totalScore.innerText) + parseInt(value): value;
       upperTotal.innerText = upperTotal.innerText.length > 0 ? parseInt(upperTotal.innerText) + parseInt(value): value;
       grand.innerText = grand.innerText.length > 0 ? parseInt(grand.innerText) + parseInt(value): value;
+
       //bonus.innerText = bonus.innerText.length > 0 ? parseInt(bonus.innerText) + parseInt(value): value;
     } else if (element.classList.contains("lower")) {
       lowerTotal.innerText = lowerTotal.innerText.length > 0 ? parseInt(lowerTotal.innerText) + parseInt(value): value;
