@@ -14,7 +14,7 @@ let myDice = new Dice();
 let player = new Scorecard();
 let locked = false;
 let rollsLeft = 3;
-//let window.myDice = myDice; //needed to run tests...
+window.myDice = myDice; //needed to run tests...
 
 /* Add Event Listener */
 document.getElementById('save-game').addEventListener('click', saveGame);
@@ -45,11 +45,10 @@ document.getElementById("rolls-remaining").innerHTML = rollsLeft; //Intializes t
  *
  */
 function endTurn(event){
-  console.log("Before " + myDice.getDiceArray());
-  myDice.setDice([1,1,1,1,1]);
-  console.log("After " + myDice.getDiceArray());
+  //myDice.setDice([1,2,3,5,2]);
   if (!locked){
-    if (event.key == 'Enter'){ //event.keyCode == '13'
+    console.log("The categories are full: " + player.isFull());
+    if (event.key == 'Enter' && rollsLeft !== 3){ //event.keyCode == '13'
       let element = event.target;
       let value = event.target.value;
       let valid = player.enterScore(element, value, myDice.getDiceArray());
@@ -57,9 +56,16 @@ function endTurn(event){
       if (valid) {
         // console.log("Valid");
         feedback("good", "The score you entered is valid.");
+        rollsLeft = 3;
+        myDice.reset();
+        document.getElementById("rolls-remaining").innerHTML = rollsLeft;
       } else {
         // console.log("invalid");
         feedback("bad", "The score you entered is not valid.");
+      }
+      if (player.isFull()){ //Check update totals for bonus
+        //console.log("The categories are full: " + player.isFull());  //Add bonus
+        feedback("info", "The game is over.");
       }
     }
   } else {
@@ -79,6 +85,7 @@ function saveGame(){
     console.log("Save game was clicked");
     let game = JSON.stringify(player.toObject());
     localStorage.setItem("Game#1", game);
+    feedback("good", "Successfully saved game!");
   } else {
     console.log("Dice are rolling. You cannot save game at this time.");
   }
@@ -92,6 +99,10 @@ function loadGame(){
     let currGame = localStorage.getItem("Game#1");
     if (currGame !== null) {
       player.loadScores(JSON.parse(currGame));
+      myDice.reset();
+      feedback("good", "Successfully loaded game!");
+    } else if (currGame == null) {
+      feedback("bad", "There is no game to load.");
     }
     console.log(currGame);
   } else {
@@ -106,6 +117,7 @@ function newGame(){
     myDice.reset();
     player.reset();
     rollsLeft = 3;
+    feedback("good", "Successfully started new game!");
     document.getElementById("rolls-remaining").innerHTML = rollsLeft;
   } else {
     console.log("Dice are rolling. You cannot start a new game at this time.");
@@ -114,18 +126,25 @@ function newGame(){
 
 function rollDice(){
   //console.log(event.target);
-  if (!locked) {
+  if (!locked && rollsLeft > 0) {
     locked = true;
-    setTimeout(unlock, 2000);
+    player.clearInputs();
+    setTimeout(unlock, 2000); //2000 ms
     console.log("Roll dice was clicked");
     myDice.spin(event);
+    //myDice.roll(event);
+
     rollsLeft--;
     document.getElementById("rolls-remaining").innerHTML = rollsLeft;
+  } else if (rollsLeft == 0){
+      feedback("bad", "Cannot roll more than 3 times.");
   }
 }
 
 function unlock () {
     locked = false;
+    console.log("Dice array: " + myDice.getDiceArray());
+    player.autoFillInputs(myDice.getDiceArray());// add the inputs
 }
 
 /**
